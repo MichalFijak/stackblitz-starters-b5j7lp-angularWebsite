@@ -11,14 +11,16 @@ import { FormsModule, NgForm } from '@angular/forms';
     <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)" novalidate>
       <input type="text" placeholder="Login" name="login" ngModel required />
       <input type="text" placeholder="Password" name="password" ngModel required />
-      <button type="submit" [disabled]="!authForm.valid">Submit</button>
+      <button class="submitButton" type="submit" [disabled]="!authForm.valid">Submit</button>
     </form>
+    <button type="button" (click)="onSwitchMode()">Switch mode to {{isLoginMode ? 'Log in' : 'Sign in'}}</button>
+    <button type="button">{{isLoginMode ? 'Sign in' : 'Log in'}}</button>
   </main>
   `,
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
-
+  isLoginMode=false;
   public onSubmit(form: NgForm) {
     if (form.valid) {
       console.log(form.value);
@@ -26,4 +28,8 @@ export class LoginComponent {
       console.log('Form is invalid');
     }
   }
+  onSwitchMode()
+  {
+    this.isLoginMode=!this.isLoginMode;
+    }
 }
