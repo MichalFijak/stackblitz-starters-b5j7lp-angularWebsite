@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { AuthResponseData, AuthServce } from './auth.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -22,22 +23,32 @@ import { AuthResponseData, AuthServce } from './auth.service';
 export class AuthComponent {
   isLoginMode=false;
   private error!: string;
+  
   constructor(private authService:AuthServce){}
+  
 
   public onSubmit(form: NgForm) {
+    let authObservable: Observable<AuthResponseData>;
+
     if (this.isLoginMode) {
-      this.authService.signup(form.value.email,form.value.password).subscribe(data=>{
-        console.log(data)
-      },errorMessage=>{
-        console.log(errorMessage);
-        this.error=errorMessage;
-      })
+      authObservable= this.authService.signup(form.value.email,form.value.password);
     }
     else{
-      this.authService.login(form.value.email,form.value.password)
+      authObservable=  this.authService.login(form.value.email,form.value.password);
     }
+  
+    authObservable.subscribe(data=>{
+      console.log(data)
+    },errorMessage=>{
+      console.log(errorMessage);
+      this.error=errorMessage;
+    })
+  
+  
     form.reset();
+  
   }
+
   onSwitchMode()
   {
     this.isLoginMode=!this.isLoginMode;
