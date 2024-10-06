@@ -44,7 +44,7 @@ export class AuthComponent {
       this.error=errorMessage;
     })
   
-  
+
     form.reset();
   
   }
