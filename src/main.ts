@@ -6,6 +6,7 @@ import {
 import { HeaderComponent } from './header/header.component';
 import { provideRouter, RouterModule } from '@angular/router';
 import routeConfig from './routes/routes.component';
+import { provideHttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -18,5 +19,5 @@ import routeConfig from './routes/routes.component';
 export class App {}
 
 bootstrapApplication(App, {
-  providers: [provideProtractorTestingSupport(), provideRouter(routeConfig)],
+  providers: [provideProtractorTestingSupport(), provideRouter(routeConfig),provideHttpClient()],
 }).catch((err) => console.error(err));

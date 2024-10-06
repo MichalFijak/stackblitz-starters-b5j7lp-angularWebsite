@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
+import { AuthResponseData, AuthServce } from './auth.service';
 
 @Component({
   selector: 'app-login',
@@ -11,25 +12,34 @@ import { FormsModule, NgForm } from '@angular/forms';
     <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)" novalidate>
       <input type="text" placeholder="Login" name="login" ngModel required />
       <input type="text" placeholder="Password" name="password" ngModel required />
-      <button class="submitButton" type="submit" [disabled]="!authForm.valid">Submit</button>
+      <button type="submit" [disabled]="!authForm.valid">{{isLoginMode ? 'Sign in' : 'Log in'}}</button>
     </form>
     <button type="button" (click)="onSwitchMode()">Switch mode to {{isLoginMode ? 'Log in' : 'Sign in'}}</button>
-    <button type="button">{{isLoginMode ? 'Sign in' : 'Log in'}}</button>
   </main>
   `,
-  styleUrls: ['./login.component.css'],
+  styleUrls: ['./auth.component.css'],
 })
-export class LoginComponent {
+export class AuthComponent {
   isLoginMode=false;
+  private error!: string;
+  constructor(private authService:AuthServce){}
+
   public onSubmit(form: NgForm) {
-    if (form.valid) {
-      console.log(form.value);
-    } else {
-      console.log('Form is invalid');
+    if (this.isLoginMode) {
+      this.authService.signup(form.value.email,form.value.password).subscribe(data=>{
+        console.log(data)
+      },errorMessage=>{
+        console.log(errorMessage);
+        this.error=errorMessage;
+      })
     }
+    else{
+      this.authService.login(form.value.email,form.value.password)
+    }
+    form.reset();
   }
   onSwitchMode()
   {
     this.isLoginMode=!this.isLoginMode;
-    }
+  }
 }
