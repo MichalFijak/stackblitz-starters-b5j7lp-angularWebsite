@@ -20,6 +20,7 @@ export class AuthServce
     constructor(private http:HttpClient){}
     signup(email:string,password:string)
     {
+
         console.log('Signed up!')
         // it will throw 404 untill correct url is provided
        return this.http.post<AuthResponseData>
@@ -32,16 +33,25 @@ export class AuthServce
         ).pipe(
             catchError(this.handleError),
              tap(resData=>{
-                const expirationDate= new Date(new Date().getTime() + +resData.expiresIn * 1000)
-                const user = new User(resData.email,resData.id,resData.token,expirationDate)
+                this.handleAuthentication(resData.email,resData.id, resData.token,+resData.expiresIn);
             }))
     }
 
     login(email:string,password:string)
     {
+        // mocked data for 
+        this.handleAuthentication(email,'someiD','validToken',new Date().getTime())
+
         console.log('Logged in!')
         // it will throw 404 untill correct url is provided
         return this.http.post<AuthResponseData>('some login endpoint url',{email:email,password:password, returnSecureToken:true})
+    }
+
+    private handleAuthentication(email:string,userId:string,token:string,expiresIn:number)
+    {
+        const expirationDate= new Date(new Date().getTime() + expiresIn * 1000)
+        const user = new User(email,userId,token,expirationDate);
+        this.user.next(user);
     }
 
     private handleError( errorRes: HttpErrorResponse)
