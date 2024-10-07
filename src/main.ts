@@ -6,7 +6,8 @@ import {
 import { HeaderComponent } from './header/header.component';
 import { provideRouter, RouterModule } from '@angular/router';
 import routeConfig from './routes/routes.component';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { authInterceptor } from './login/auth-interceptor.service';
 
 @Component({
   selector: 'app-root',
@@ -19,5 +20,5 @@ import { provideHttpClient } from '@angular/common/http';
 export class App {}
 
 bootstrapApplication(App, {
-  providers: [provideProtractorTestingSupport(), provideRouter(routeConfig),provideHttpClient()],
+  providers: [provideProtractorTestingSupport(), provideRouter(routeConfig),provideHttpClient(withInterceptors([authInterceptor]))],
 }).catch((err) => console.error(err));
