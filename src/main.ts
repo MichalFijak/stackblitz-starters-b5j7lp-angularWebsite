@@ -4,7 +4,7 @@ import {
   provideProtractorTestingSupport,
 } from '@angular/platform-browser';
 import { HeaderComponent } from './header/header.component';
-import { provideRouter, RouterModule } from '@angular/router';
+import {provideRouter, RouterModule } from '@angular/router';
 import routeConfig from './routes/routes.component';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { authInterceptor } from './login/auth-interceptor.service';
