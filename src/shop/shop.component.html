@@ -28,9 +28,11 @@
         <button (click)="cartSneakpeek()">Show cart</button>
 
     </div>
+
+    <!-- It cannot be done this way thus it generate multipe div / app-cart-sneak.. -->
     <div *ngIf="showCart">
         Cart sneakpeek:
         <!-- it should be passed by service and DI -->
-        <app-cart-sneakpeak [shopCart]="shopCart"></app-cart-sneakpeak>
+        <app-cart-sneakpeak></app-cart-sneakpeak>
     </div>
 </form>
