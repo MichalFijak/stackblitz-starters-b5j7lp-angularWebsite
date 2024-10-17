@@ -5,6 +5,7 @@ import { ItemModel } from './ItemModel';
 import { CartSneakpeakComponent } from './cart-sneakpeak/cart-sneakpeak.component';
 import { Subscription } from 'rxjs';
 import { ShopListService } from './shopList.service';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-shop',
@@ -14,10 +15,9 @@ import { ShopListService } from './shopList.service';
   styleUrls: ['./shop.component.css']
 })
 export class ShopComponent implements OnDestroy {
-  protected showCart = false;
   private shopListSubscription!: Subscription;
 
-  constructor(private shopList: ShopListService) {
+  constructor(private shopList: ShopListService, private router: Router) {
     this.shopListSubscription = this.shopList.getItems().subscribe((items: ItemModel[]) => {
       console.log(items, 'ShopComponent items');
     });
@@ -35,6 +35,6 @@ export class ShopComponent implements OnDestroy {
   }
 
   cartSneakpeek() {
-    this.showCart = !this.showCart;
+    this.router.navigate(['/cart'])
   }
 }
