@@ -26,11 +26,5 @@
         </div>
         <button type="submit" [disabled]="!f.valid">Add</button>
         <button (click)="cartSneakpeek()">Show cart</button>
-
-    </div>
-    <div *ngIf="showCart">
-        Cart sneakpeek:
-        <!-- it should be passed by service and DI -->
-        <app-cart-sneakpeak [shopCart]="shopCart"></app-cart-sneakpeak>
     </div>
 </form>

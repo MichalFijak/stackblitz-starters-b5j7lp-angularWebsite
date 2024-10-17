@@ -1,0 +1,33 @@
+ul{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+/* Style the input container */
+div {
+    width: 100%;
+    max-width: 400px; /* Limit the maximum width */
+    margin: 20px auto; /* Center align and add some margin */
+    padding: 10px; /* Add padding */
+    background-color: #f0f0f0; /* Light gray background */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  }
+  
+  /* Style the input field */
+  input {
+    width: 100%;
+    padding: 10px; /* Padding around text */
+    border: 1px solid #ccc; /* Light gray border */
+    border-radius: 4px; /* Rounded corners */
+    font-size: 16px; /* Larger font size */
+    box-sizing: border-box; /* Ensure padding is included in width */
+  }
+  
+  /* Focus state for input field */
+  input:focus {
+    border-color: #007bff; /* Blue border on focus */
+    outline: none; /* Remove default outline */
+    box-shadow: 0 0 4px rgba(0, 123, 255, 0.5); /* Add shadow effect */
+  }
+  

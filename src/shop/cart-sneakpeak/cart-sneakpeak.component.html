@@ -1,6 +1,20 @@
+
 <div>
+    <input id="filter"
+     placeholder="Filter..."
+     [(ngModel)]="filteredItem"
+      (ngModelChange)="filter()">
+</div>
+
+<div *ngIf="shopCart.length > 0" class="list">
     @for(item of shopCart; track item.name)
     {
-        <li>{{item.name}} amount of: {{item.amount}}</li>
+    <ul>
+        <span class="name-column">{{item.name}}</span>
+        <span class="amount-column">{{item.amount}}</span>
+    </ul>
     }
 </div>
+
+
+
