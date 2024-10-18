@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import { ItemModel } from './ItemModel';
 
 @Injectable({
@@ -7,7 +7,7 @@ import { ItemModel } from './ItemModel';
 })
 export class ShopListService {
   private shopList: ItemModel[] = [];
-  private shopListSubject: BehaviorSubject<ItemModel[]> = new BehaviorSubject<ItemModel[]>(this.shopList);
+  private shopListSubject: Subject<ItemModel[]> = new Subject<ItemModel[]>
 
   constructor() {}
 
