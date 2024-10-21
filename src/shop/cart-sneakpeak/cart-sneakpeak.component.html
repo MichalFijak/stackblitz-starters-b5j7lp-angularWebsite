@@ -3,17 +3,17 @@
     <input id="filter"
      placeholder="Filter..."
      [(ngModel)]="filteredItem"
-      (ngModelChange)="filter()">
+      (ngModelChange)="filter()"
+      [disabled]="shopCart.length>0? false:true">
 </div>
 
 <div *ngIf="shopCart.length > 0" class="list">
-    @for(item of shopCart; track item.name)
-    {
+    <ng-container *ngFor="let item of filteredItems; trackBy: trackByName">
     <ul>
         <span class="name-column">{{item.name}}</span>
         <span class="amount-column">{{item.amount}}</span>
     </ul>
-    }
+    </ng-container>
 </div>
 
 

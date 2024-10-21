@@ -1,6 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ItemModel } from '../ItemModel';
-import { Subscription } from 'rxjs';
 import { ShopListService } from '../shopList.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -12,32 +11,34 @@ import { CommonModule } from '@angular/common';
   templateUrl: './cart-sneakpeak.component.html',
   styleUrls: ['./cart-sneakpeak.component.css']
 })
-export class CartSneakpeakComponent implements OnInit, OnDestroy {
-  private shopListSubscription!: Subscription;
+export class CartSneakpeakComponent{
   protected shopCart!: ItemModel[];
+  filteredItems!: ItemModel[];
   protected filteredItem:string="";
-  constructor(private shopListService: ShopListService) {}
-
-  ngOnInit(): void {
-    this.shopListSubscription = this.shopListService.getItems().subscribe((items) => {
-      this.shopCart = items;
-    });
-  }
-
-  ngOnDestroy(): void {
-    if (this.shopListSubscription) {
-      this.shopListSubscription.unsubscribe();
-    }
+  
+  constructor(private shopListService: ShopListService) {
+    this.shopCart = this.shopListService.getItems()
+    this.filteredItems = this.shopCart
 
   }
+
+  
   trackByName(index: number, item: ItemModel): string {
     return item.name;
   }
 
   filter()
   {
-    console.log(this.filteredItem);
     // here implementation of filtering throught item model so we can check if it appears on list
     // use .pipe(map())
+    if(this.shopCart.length>0){
+    this.filteredItems=this.shopCart.filter(item=>
+      item.name.toLowerCase().includes(this.filteredItem.toLowerCase())
+    )
+  }
+   else
+  {
+      this.filteredItems=this.shopCart;
+  }
   }
 }

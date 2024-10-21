@@ -5,7 +5,7 @@ import { ItemModel } from './ItemModel';
 import { CartSneakpeakComponent } from './cart-sneakpeak/cart-sneakpeak.component';
 import { Subscription } from 'rxjs';
 import { ShopListService } from './shopList.service';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-shop',
@@ -14,20 +14,11 @@ import { Router, RouterLink } from '@angular/router';
   templateUrl: './shop.component.html',
   styleUrls: ['./shop.component.css']
 })
-export class ShopComponent implements OnDestroy {
-  private shopListSubscription!: Subscription;
+export class ShopComponent {
 
   constructor(private shopList: ShopListService, private router: Router) {
-    this.shopListSubscription = this.shopList.getItems().subscribe((items: ItemModel[]) => {
-      console.log(items, 'ShopComponent items');
-    });
-  }
-
-  ngOnDestroy(): void {
-    if (this.shopListSubscription) {
-      this.shopListSubscription.unsubscribe();
-    }
-  }
+    };
+  
 
   onAddItem(form: NgForm) {
     this.shopList.addItem(new ItemModel(form.value.name, +form.value.amount));
