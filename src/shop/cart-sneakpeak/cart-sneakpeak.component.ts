@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ItemModel } from '../ItemModel';
-import { ShopListService } from '../shopList.service';
+import { Subscription } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { ShopListService } from '../shopList.service';
 
 @Component({
   selector: 'app-cart-sneakpeak',
@@ -11,34 +12,41 @@ import { CommonModule } from '@angular/common';
   templateUrl: './cart-sneakpeak.component.html',
   styleUrls: ['./cart-sneakpeak.component.css']
 })
-export class CartSneakpeakComponent{
-  protected shopCart!: ItemModel[];
-  filteredItems!: ItemModel[];
-  protected filteredItem:string="";
-  
-  constructor(private shopListService: ShopListService) {
-    this.shopCart = this.shopListService.getItems()
-    this.filteredItems = this.shopCart
+export class CartSneakpeakComponent implements OnInit, OnDestroy {
+  private shopListSubscription!: Subscription;
+  protected shopCart: ItemModel[] = [];
+  filteredItems: ItemModel[] = [];
+  protected filteredItem: string = '';
 
+  constructor(private shopListService: ShopListService) {
   }
 
-  
+  ngOnInit(): void {
+
+    this.shopListSubscription = this.shopListService.shopListSubject.subscribe((items: ItemModel[]) => {
+      this.shopCart = items;
+      this.filteredItems = items;
+      console.log(this.shopCart, 'shopCart from cart-sneakpeak');
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.shopListSubscription) {
+      this.shopListSubscription.unsubscribe();
+    }
+  }
+
   trackByName(index: number, item: ItemModel): string {
     return item.name;
   }
 
-  filter()
-  {
-    // here implementation of filtering throught item model so we can check if it appears on list
-    // use .pipe(map())
-    if(this.shopCart.length>0){
-    this.filteredItems=this.shopCart.filter(item=>
-      item.name.toLowerCase().includes(this.filteredItem.toLowerCase())
-    )
-  }
-   else
-  {
-      this.filteredItems=this.shopCart;
-  }
+  filter() {
+    if (this.filteredItem) {
+      this.filteredItems = this.shopCart.filter(item =>
+        item.name.toLowerCase().includes(this.filteredItem.toLowerCase())
+      );
+    } else {
+      this.filteredItems = this.shopCart;
+    }
   }
 }

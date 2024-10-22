@@ -3,7 +3,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { ItemModel } from './ItemModel';
 import { CartSneakpeakComponent } from './cart-sneakpeak/cart-sneakpeak.component';
-import { Subscription } from 'rxjs';
 import { ShopListService } from './shopList.service';
 import { Router } from '@angular/router';
 
