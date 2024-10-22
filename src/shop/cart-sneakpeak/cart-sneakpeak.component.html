@@ -4,19 +4,19 @@
       placeholder="Filter..."
       [(ngModel)]="filteredItem"
       (ngModelChange)="filter()"
-      [disabled]="shopCart.length > 0 ? false : true"
+      [disabled]="!shopCart?.length"
     />
   </div>
-  <div *ngIf="filteredItems.length > 0" class="list">
-    <ng-container *ngFor="let item of filteredItems; trackBy: trackByName">
+  <ng-container *ngIf="filteredItems | async as items; else noItems" class="list">
+    <div *ngFor="let item of items; trackBy: trackByName">
       <ul>
         <li>
           <span class="name-column">{{item.name}}</span>
           <span class="amount-column">{{item.amount}}</span>
         </li>
       </ul>
-    </ng-container>
-  </div>
+    </div>
+  </ng-container>
   <ng-template #noItems>
     <p>No items found</p>
   </ng-template>

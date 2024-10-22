@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { ItemModel } from './ItemModel';
 
 @Injectable({
@@ -10,6 +10,11 @@ export class ShopListService {
   shopListSubject: BehaviorSubject<ItemModel[]> = new BehaviorSubject<ItemModel[]>(this.shopList)
 
   constructor() {}
+
+  getItems(): Observable<ItemModel[]>
+  {
+    return this.shopListSubject.asObservable();
+  }
 
   addItem(item: ItemModel): void {
     this.shopList = [...this.shopList, item]; // Ensure a new array instance

@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ItemModel } from '../ItemModel';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription, map } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ShopListService } from '../shopList.service';
@@ -15,7 +15,7 @@ import { ShopListService } from '../shopList.service';
 export class CartSneakpeakComponent implements OnInit, OnDestroy {
   private shopListSubscription!: Subscription;
   protected shopCart: ItemModel[] = [];
-  filteredItems: ItemModel[] = [];
+  filteredItems!: Observable<ItemModel[]>;
   protected filteredItem: string = '';
 
   constructor(private shopListService: ShopListService) {
@@ -25,7 +25,7 @@ export class CartSneakpeakComponent implements OnInit, OnDestroy {
 
     this.shopListSubscription = this.shopListService.shopListSubject.subscribe((items: ItemModel[]) => {
       this.shopCart = items;
-      this.filteredItems = items;
+      this.updateFilteredItems()
       console.log(this.shopCart, 'shopCart from cart-sneakpeak');
     });
   }
@@ -41,12 +41,12 @@ export class CartSneakpeakComponent implements OnInit, OnDestroy {
   }
 
   filter() {
-    if (this.filteredItem) {
-      this.filteredItems = this.shopCart.filter(item =>
-        item.name.toLowerCase().includes(this.filteredItem.toLowerCase())
-      );
-    } else {
-      this.filteredItems = this.shopCart;
-    }
+    this.updateFilteredItems()
+
+  }
+  updateFilteredItems()
+  {
+    this.filteredItems=this.shopListService.getItems().pipe(map(items=>items.filter(
+      item=>item.name.toLowerCase().includes(this.filteredItem.toLowerCase()))))
   }
 }
