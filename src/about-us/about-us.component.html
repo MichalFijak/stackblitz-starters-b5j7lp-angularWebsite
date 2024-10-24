@@ -1,1 +1,18 @@
-<p>About us</p>
+<fieldset>
+    <legend> Exchange calculator</legend>
+     <input placeholder="Money amount"
+      [(ngModel)]="moneyToExchange"
+      (ngModelChange)="calculate()"
+      >
+     <select>
+        <option>USD</option>
+        <option>EUR</option>
+        <option>PLN</option>
+     </select>
+     <input placeholder="{{exchangedMoney}}">
+     <select>
+        <option>USD</option>
+        <option>EUR</option>
+        <option>PLN</option>
+     </select>
+   </fieldset>
