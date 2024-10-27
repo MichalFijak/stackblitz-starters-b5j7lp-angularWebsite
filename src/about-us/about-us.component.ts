@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit, Signal, computed, signal } from '@angular/core';
+import { Component, OnDestroy, OnInit} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CurrencyCalculatorService, CurrencyModel } from './currencyCalculator.service';
-import { Subscriber, Subscription } from 'rxjs';
+import {  Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-about-us',
@@ -16,19 +16,25 @@ export class AboutUsComponent implements OnInit, OnDestroy{
   exchangeRate=3.45;
   exchangedMoney=0;
   currencyService$!:Subscription;
-  //currencyModel!:Signal<CurrencyModel[]>;
+  currencyModel!:CurrencyModel[];
   constructor(private currencyCalculatorService: CurrencyCalculatorService)
   {
+    
   }
 
   ngOnInit()
   {
-    let x = computed(() => this.currencyCalculatorService.getCurrencyModels$)
-    let y = this.currencyCalculatorService.getCurrencyModels();
-    console.log(x());
-    console.log(y);
-    
+    this.currencyService$=this.currencyCalculatorService.getCurrencyModels$.subscribe(
+       (items) =>
+       this.currencyModel = items()
+       
+       )
+       this.currencyCalculatorService.getItems();
 
+    let x = this.currencyCalculatorService.getCurrencyModels;
+    console.log(x());
+    console.log(this.currencyModel);
+    console.log('onInit')
   }
 
   ngOnDestroy(): void {
@@ -37,6 +43,7 @@ export class AboutUsComponent implements OnInit, OnDestroy{
 
   calculate()
   {
+    console.log(this.currencyModel,'calcualte')
     this.exchangedMoney=this.exchangeRate*(+this.moneyToExchange);
   }
 }

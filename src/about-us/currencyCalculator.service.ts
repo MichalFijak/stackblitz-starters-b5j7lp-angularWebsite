@@ -40,8 +40,12 @@ export class CurrencyCalculatorService
     ]
 
     public readonly getCurrencyModels = signal<CurrencyModel[]>(this.currencyModels);
-    public readonly getCurrencyModels$= new Subject<Signal<CurrencyModel[]>>().asObservable();
+    public readonly getCurrencyModels$= new Subject<Signal<CurrencyModel[]>>();
     
+    getItems()
+    {
+        this.getCurrencyModels$.next(this.getCurrencyModels)
+    }
 
 }
 
